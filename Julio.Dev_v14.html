@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Julio.Dev | Julio Ortega, Computer Science Student</title>
+<meta name="description" content="Portfolio of Julio Ortega, a first-year BS Computer Science student learning C++, Java, HTML and CSS.">
+<meta name="theme-color" content="#79cde5">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Julio.Dev | Julio Ortega">
+<meta property="og:description" content="First-year BS Computer Science student. Projects, achievements and creative outputs.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2312306a'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='19' font-weight='800' text-anchor='middle' fill='%23fdc945'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap">
+<style>
+/* Layout concept: one continuous page on a water-to-sunlight gradient. No boxes: sections are separated by thin rules and tight spacing, with ripples, bubbles, waves and timelines moving with the scroll. */
+
+:root{
+  --font:"Atkinson Hyperlegible Next",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --sky:#79cde5; --mist:#c9e7e6; --butter:#f3e38a;
+  --ocean:#4a82b8; --navy:#12306a;
+  --gold:#fdc945;
+  --ink:#0f2a55; --ink-soft:#1f3f73;
+  --head:#12306a; --label:#5c4000;
+  --title-a:#16367d; --title-b:#2447a8;
+  --rule:rgba(15,42,85,.28);
+  --track:rgba(15,42,85,.16);
+  --nav:rgba(255,255,255,.74);
+  --m1a:#2a52c0; --m1b:#12306a; --m2a:#6f7d45; --m2b:#4d5a2c;
+  --caustic:.5; --sun:.6; --wave:rgba(255,255,255,.4); --bubble:rgba(255,255,255,.6);
+  --band:rgba(121,205,229,.72);
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --sky:#061f3b; --mist:#0a4057; --butter:#3b3210;
+  --ink:#e9f3ff; --ink-soft:#b9cde8;
+  --head:#fdc945; --label:#fdc945;
+  --title-a:#ffe38f; --title-b:#fdc945;
+  --rule:rgba(233,243,255,.26);
+  --track:rgba(255,255,255,.18);
+  --nav:rgba(8,28,62,.82);
+  --m1a:#ffe58a; --m1b:#fdc945; --m2a:#c3cf9e; --m2b:#8f9b6b;
+  --caustic:.2; --sun:.2; --wave:rgba(120,190,255,.14); --bubble:rgba(170,215,255,.4);
+  --band:rgba(6,31,59,.75);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--sky);color:var(--ink);
+  font-family:var(--font);font-size:1.0625rem;line-height:1.55;
+  overflow-x:hidden;
+  padding-top:env(safe-area-inset-top,0px);
+  transition:background-color .4s,color .4s;
+}
+[hidden]{display:none!important}
+.skip{position:absolute;left:8px;top:-60px;z-index:100;padding:.5rem .9rem;border-radius:4px;background:var(--gold);color:#12306a;font-weight:700;text-decoration:none}
+.skip:focus{top:8px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--band);backdrop-filter:blur(14px)}
+h1,h2,h3,h4,p,ul,dl,dd{margin:0}
+ul{padding:0;list-style:none}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--head);outline-offset:3px;border-radius:4px}
+
+/* ---------- Living background ---------- */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg-grad{position:absolute;inset:0;background:linear-gradient(180deg,var(--sky) 0%,var(--sky) 12%,var(--mist) 45%,var(--butter) 80%,var(--butter) 100%);background-size:100% 300%;background-position:50% 0}
+.sun{position:absolute;left:-10vw;top:-10vh;width:70vmax;height:70vmax;border-radius:50%;background:radial-gradient(circle,rgba(253,201,69,.85) 0%,rgba(253,201,69,.25) 35%,transparent 65%);opacity:var(--sun);will-change:transform}
+.caustic{position:absolute;left:0;right:0;top:-12%;height:150%;opacity:var(--caustic);will-change:transform}
+.caustic-in{width:100%;height:100%;animation:drift 38s ease-in-out infinite alternate}
+.caustic svg{display:block;width:100%;height:100%}
+@keyframes drift{from{transform:translate3d(-2%,0,0) scale(1.05)}to{transform:translate3d(2%,-2%,0) scale(1.12)}}
+.bubble{position:absolute;left:0;top:0;border-radius:50%;border:1px solid var(--bubble);background:radial-gradient(circle at 30% 28%,rgba(255,255,255,.85) 0 7%,rgba(255,255,255,.16) 30%,rgba(255,255,255,.03) 70%);will-change:transform}
+.sec,.hs{overflow-x:clip}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;opacity:.4;z-index:-1}
+.blob.gold{background:var(--gold)}
+.blob.ocean{background:var(--ocean)}
+
+/* ---------- Layout ---------- */
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sec{padding-block:clamp(1.5rem,3.5vw,2.5rem);scroll-margin-top:calc(var(--navh,56px) + env(safe-area-inset-top,0px));position:relative;isolation:isolate}
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:.6rem}
+.eyebrow::before{content:"";width:28px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--ocean))}
+.sec-title{font-size:clamp(1.75rem,4vw,2.75rem);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin:.2rem 0 .9rem;text-wrap:balance;background:linear-gradient(100deg,var(--title-a),var(--title-b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sec-lead{max-width:62ch;color:var(--ink-soft);margin:-.4rem 0 1rem}
+
+/* ---------- Blocks (flat, no boxes) ---------- */
+.pane{position:relative;color:var(--ink)}
+.pane h3{color:var(--head);font-weight:800;letter-spacing:-.01em}
+.pane p,.pane li,.pane dd{color:var(--ink)}
+.ruled{border-top:2px solid var(--rule);padding-top:.8rem}
+.chip{display:inline-flex;align-items:center;padding:.15rem .6rem;border-radius:4px;background:var(--gold);color:#12306a;font-size:.8rem;font-weight:700;letter-spacing:.02em}
+.chip.ghost{background:transparent;border:1px solid var(--rule);color:var(--ink);padding:.12rem .55rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.2rem;border-radius:4px;font-weight:700;text-decoration:none;border:2px solid transparent;cursor:pointer;font:inherit;font-weight:700;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.gold{background:var(--gold);color:#12306a}
+.btn.line{border-color:var(--ink);color:var(--ink);background:transparent}
+
+/* ---------- Nav ---------- */
+.nav-wrap{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--nav);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid var(--rule)}
+.nav{display:flex;align-items:center;gap:1rem;padding-block:.4rem;color:var(--ink)}
+.brand{font-weight:800;font-size:1.2rem;letter-spacing:-.02em;text-decoration:none;background:linear-gradient(100deg,var(--title-a),var(--title-b));-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.links{display:flex;gap:.1rem;margin-left:auto;overflow-x:auto;scrollbar-width:none;min-width:0}
+.links::-webkit-scrollbar{display:none}
+.links a{display:block;padding:.35rem .7rem;text-decoration:none;font-size:.9rem;font-weight:600;white-space:nowrap;border-bottom:3px solid transparent;transition:border-color .2s}
+.links a:hover{border-bottom-color:var(--gold)}
+.links a.on,.links a[aria-current=true]{border-bottom-color:var(--head)}
+.theme{flex:none;position:relative;width:64px;height:34px;border-radius:999px;border:1.5px solid var(--head);background:linear-gradient(90deg,#9bdcf0,#fae08c);cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 9px;transition:background .4s}
+:root[data-theme="dark"] .theme{background:linear-gradient(90deg,#0a2a52,#1b4f86)}
+.theme svg{width:16px;height:16px;position:relative;z-index:1}
+.theme .knob{position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#ffe58a 55%,#fdc945);box-shadow:0 3px 8px rgba(0,0,0,.35);transition:transform .35s cubic-bezier(.5,1.6,.5,1),background .3s}
+:root[data-theme="dark"] .theme .knob{transform:translateX(30px);background:radial-gradient(circle at 35% 30%,#fff,#cfe0ff 55%,#8fb0e6)}
+.theme .i-sun{color:#a8780f}.theme .i-moon{color:#cfe0ff}
+@media (max-width:760px){
+  .nav{flex-wrap:wrap;row-gap:.2rem}
+  .brand{order:1}.theme{order:2;margin-left:auto}
+  .links{order:3;width:100%;margin-left:0}
+}
+
+/* ---------- Hero / About ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1rem,3vw,2.5rem);align-items:center;padding-top:clamp(.5rem,1.5vw,1rem)}
+.hello{display:inline-flex;gap:.5rem;align-items:center;font-weight:700;font-size:.9rem;color:var(--ink)}
+.hello b{width:9px;height:9px;border-radius:50%;background:#2fbf7a;box-shadow:0 0 0 4px rgba(47,191,122,.25)}
+h1.name{font-size:clamp(2.6rem,7.2vw,5.2rem);line-height:.95;font-weight:800;letter-spacing:-.035em;margin:.6rem 0 .6rem;background:linear-gradient(100deg,var(--title-a),var(--title-b));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1.name span{display:block}
+h1.name em{font-style:normal;font-size:.36em;letter-spacing:-.01em;vertical-align:.45em;margin-left:.15em;-webkit-text-fill-color:var(--label)}
+.slogan{font-style:italic;font-weight:600;font-size:clamp(1.1rem,2.2vw,1.4rem);color:var(--ink);margin-bottom:.5rem}
+.lead{max-width:52ch;color:var(--ink-soft);font-size:1.1rem}
+.cta-row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.1rem}
+@media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr)}}
+
+.about-block{margin-top:1.5rem}
+.about{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:1.25rem 2.5rem}
+.about p+p{margin-top:.7rem}
+.facts{display:grid;gap:.5rem}
+.facts div{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid var(--rule);padding-bottom:.4rem}
+.facts dt{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--label)}
+.facts dd{text-align:right;font-weight:600;color:var(--ink)}
+@media (max-width:860px){.about{grid-template-columns:minmax(0,1fr)}}
+
+.wave-slot{height:34px;overflow:hidden;position:relative}
+.wave{position:absolute;left:0;top:0;width:100%;height:100%}
+.wave path{fill:var(--wave)}
+
+/* ---------- Education timeline ---------- */
+.tl{position:relative;display:grid;gap:.9rem}
+.tl-line{position:absolute;left:19px;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--rule)}
+.tl-item{display:grid;grid-template-columns:42px minmax(0,1fr);gap:.9rem}
+.tl-dot{width:22px;height:22px;margin:6px 0 0 9px;border-radius:50%;background:var(--sky);border:4px solid #fff;box-shadow:0 0 0 3px rgba(18,48,106,.25);transition:background .35s,transform .35s,box-shadow .35s;position:relative;z-index:1}
+.tl-item.in .tl-dot{background:var(--gold);transform:scale(1.2);box-shadow:0 0 0 6px rgba(253,201,69,.3)}
+.tl-card{padding-bottom:.9rem;border-bottom:1px solid var(--rule)}
+.tl-item:last-child .tl-card{border-bottom:0;padding-bottom:0}
+.tl-top{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:.35rem}
+.tl-card h3{font-size:clamp(1.15rem,2.2vw,1.45rem);line-height:1.2}
+.tl-school{font-weight:600;color:var(--ink);margin:.1rem 0 .4rem}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+
+/* ---------- Strengths & weaknesses ---------- */
+.sw{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem 2.5rem}
+.sw-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem}
+.sw-head h3{font-size:1.45rem}
+.skill{padding:.7rem 0;border-top:1px solid var(--rule)}
+.skill h4{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;font-size:1.08rem;font-weight:800;color:var(--ink);margin-bottom:.15rem}
+.skill h4 small{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--label);font-weight:700}
+.skill p{font-size:.95rem}
+.skill .plan{margin-top:.3rem;font-size:.92rem;font-style:italic}
+.meter{height:6px;border-radius:3px;background:var(--track);margin-top:.5rem;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:3px;transform-origin:left;transform:scaleX(calc(var(--v) * var(--k,1)));background:linear-gradient(90deg,var(--m1a),var(--m1b))}
+.grow .meter i{background:linear-gradient(90deg,var(--m2a),var(--m2b))}
+@media (max-width:860px){.sw{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- Values / mission ---------- */
+.values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem 2rem}
+.value svg{width:40px;height:40px;margin-bottom:.4rem;color:var(--head)}
+.value h3{font-size:1.35rem;margin-bottom:.2rem}
+.principles{margin-top:1.25rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem 2rem}
+.principles li{display:flex;gap:.7rem;align-items:flex-start}
+.principles li b{flex:none;width:28px;height:28px;border-radius:4px;display:grid;place-items:center;background:var(--gold);color:#12306a;font-size:.9rem}
+.principles li span{color:var(--ink)}
+.mv{margin-top:1.25rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem 2.5rem}
+.mv h3{font-size:1.6rem;margin-bottom:.4rem}
+.mv .big{font-size:clamp(1.1rem,1.8vw,1.3rem);line-height:1.4;font-weight:600;color:var(--ink)}
+.audience{margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.audience small{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--label);margin-right:.3rem}
+.sec-title.sub{margin-top:1.6rem}
+@media (max-width:860px){.values,.principles,.mv{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- Achievements (horizontal scroll) ---------- */
+.hs{position:relative;isolation:isolate;scroll-margin-top:calc(var(--navh,56px) + env(safe-area-inset-top,0px))}
+.hs-top{padding-block:clamp(1.5rem,3.5vw,2.5rem) .5rem}
+.hs-run{position:relative}
+.hs .pin{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--navh,56px));display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding-block:1rem;min-height:calc(100vh - env(safe-area-inset-top,0px) - var(--navh,56px));min-height:calc(100svh - env(safe-area-inset-top,0px) - var(--navh,56px))}
+.track{display:flex;gap:2rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));width:max-content;will-change:transform}
+.ach{width:min(80vw,340px);display:flex;flex-direction:column;gap:.4rem;flex:none;border-left:2px solid var(--rule);padding-left:1rem;transition:opacity .2s linear}
+.ach .yr{font-size:2.8rem;font-weight:800;letter-spacing:-.04em;line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--head)}
+.ach h3{font-size:1.2rem;line-height:1.25}
+.ach p{font-size:.95rem}
+.ach .chip{align-self:flex-start;margin-top:.3rem}
+.hs-dots{display:flex;gap:.5rem;justify-content:center;margin:.8rem 0 0}
+.hs-dots i{width:7px;height:7px;border-radius:50%;background:var(--rule);transition:background .3s,width .3s,border-radius .3s}
+.hs-dots i.on{background:var(--head);width:22px;border-radius:5px}
+/* Fallback when motion is reduced or the pinned area would not fit the screen: plain wrapped grid */
+.hs.static .pin{position:static;overflow:visible;min-height:0}
+.hs.static .track{width:auto;flex-wrap:wrap;max-width:1120px;margin-inline:auto;transform:none!important}
+.hs.static .ach{width:min(100%,340px);opacity:1!important}
+.hs.static .hs-dots{display:none}
+
+/* ---------- Achievements row (text cards under the Achievements marker) ---------- */
+.achv-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem 2rem;margin-bottom:.4rem}
+.achv{border-top:2px solid var(--rule);padding-top:.7rem}
+.achv .shot{aspect-ratio:16/9;margin-bottom:.55rem}
+.achv h3{font-size:1.08rem;line-height:1.25;margin:.35rem 0 .2rem;color:var(--head);font-weight:800;letter-spacing:-.01em}
+.achv p{font-size:.92rem;line-height:1.45;color:var(--ink)}
+@media (max-width:860px){
+  .achv-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:1.25rem;scrollbar-width:none;padding-bottom:.3rem}
+  .achv-row::-webkit-scrollbar{display:none}
+  .achv{flex:none;width:min(80vw,320px);scroll-snap-align:start}
+}
+.hs.static .achv-row{overflow:visible}
+
+/* ---------- Works ---------- */
+.works{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem 2rem;align-items:start}
+.minor-works{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem 1.5rem;margin-top:2rem;align-items:start}
+.work-small .shot{aspect-ratio:4/3}
+.work-small .body{padding-top:.55rem}
+.work-small h3{font-size:1.08rem}
+.work-small .body p{font-size:.9rem}
+.shot{aspect-ratio:16/10;max-width:100%;border-radius:6px;overflow:hidden;position:relative;background:rgba(255,255,255,.18);border:1px dashed var(--rule)}
+.shot img{display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.shot.missing img{display:none}
+.shot.missing::after{content:"Image coming soon";position:absolute;inset:0;display:grid;place-items:center;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.work .body{padding:.7rem 0 0}
+.work h3{font-size:1.3rem;margin:.35rem 0 .2rem}
+@media (max-width:860px){.works{grid-template-columns:minmax(0,1fr)}.minor-works{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+@media (max-width:520px){.minor-works{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- Contact ---------- */
+.contact{text-align:center;display:grid;justify-items:center;gap:.7rem}
+.contact .eyebrow{color:var(--ink-soft)}
+.milestones-label{padding:.55rem 0}
+.contact h2{font-size:clamp(1.75rem,4vw,2.6rem);line-height:1.1;font-weight:800;letter-spacing:-.02em;color:var(--head);max-width:22ch;text-wrap:balance}
+.mail{display:inline-flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:center}
+.mail code{font-family:inherit;font-weight:700;font-size:1.05rem;border:1px solid var(--rule);border-radius:4px;padding:.4rem .8rem;color:var(--ink);user-select:all;overflow-wrap:anywhere}
+.socials{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+footer{padding:1rem 0 calc(1.5rem + env(safe-area-inset-bottom,0px));text-align:center;font-size:.88rem;color:var(--ink-soft)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  #bubbles{display:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="bg" aria-hidden="true">
+  <div class="bg-grad" id="grad"></div>
+  <div class="sun" id="sun"></div>
+  <div class="caustic" id="caustic"><div class="caustic-in">
+    <svg viewBox="0 0 1200 1200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <filter id="cf" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.006 0.009" numOctaves="3" seed="11"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1 0 0 0 0"/>
+        <feComponentTransfer><feFuncA type="table" tableValues="0 0 0 0 0 0 0 .5 1 .5 0 0 0 0 0 0 0"/></feComponentTransfer>
+      </filter>
+      <rect width="1200" height="1200" filter="url(#cf)"/>
+    </svg>
+  </div></div>
+  <div id="bubbles"></div>
+</div>
+
+<header class="nav-wrap"><div class="wrap">
+  <nav class="nav" aria-label="Primary">
+    <a class="brand" href="#about">Julio.Dev</a>
+    <ul class="links" id="links">
+      <li><a href="#about">About me</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#strengths">Strengths</a></li>
+      <li><a href="#values">Values &amp; Mission</a></li>
+      <li><a href="#milestones">Achievements</a></li>
+      <li><a href="#works">Best works</a></li>
+    </ul>
+    <button class="theme" id="theme" type="button" role="switch" aria-checked="false" aria-label="Dark mode">
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+      <svg class="i-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"/></svg>
+      <span class="knob"></span>
+    </button>
+  </nav>
+</div></header>
+
+<main id="main">
+<!-- ================= 1. ABOUT ME ================= -->
+<section id="about" class="sec">
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <span class="hello"><b></b> 1st-year Computer Science student</span>
+        <h1 class="name"><span>Julio</span><span>Ortega<em>.Dev</em></span></h1>
+        <p class="slogan">“Question everything, assume nothing.”</p>
+        <p class="lead">A first-year BS Computer Science student exploring how software is designed, how problems can be solved through code, and how thoughtful web experiences are built. Currently developing my skills in C++, Java, HTML and CSS through study, practice and experimentation.</p>
+        <div class="cta-row">
+          <a class="btn gold" href="#works">See my work</a>
+          <a class="btn line" href="#contact">Get in touch</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-block">
+      <p class="eyebrow">About me</p>
+      <h2 class="sec-title">A builder who checks the assumptions first.</h2>
+      <div class="about">
+        <div class="pane">
+          <p>I'm Julio Ortega, a first-year Bachelor of Science in Computer Science student at the College of Innovation and Integrated Technology. I enjoy understanding how things work, breaking unfamiliar ideas into smaller parts, and learning by trying things for myself. That curiosity is a big part of what drew me toward computing.</p>
+          <p>My interests center on programming, web development and the thinking behind digital tools. I'm currently learning C++, Java, HTML and CSS, and I want to understand not only how to write code, but also how individual parts work together to create something useful. I approach each new topic as an opportunity to strengthen my fundamentals and become a more capable problem-solver.</p>
+          <p>What motivates me most is the process of turning a question or an idea into something I can test and improve. I know that becoming a good developer takes patience, consistent practice and a willingness to learn from mistakes. I want to keep building those habits, take on increasingly challenging work, and use what I learn to create technology that is practical, understandable and helpful to others.</p>
+        </div>
+        <div class="pane ruled">
+          <h3 style="margin-bottom:.6rem">Quick facts</h3>
+          <dl class="facts">
+            <div><dt>Name</dt><dd>Julio Ortega</dd></div>
+            <div><dt>Studying</dt><dd>BS Computer Science</dd></div>
+            <div><dt>Year level</dt><dd>1st year</dd></div>
+            <div><dt>College</dt><dd>College of Innovation and Integrated Technology</dd></div>
+            <div><dt>Learning now</dt><dd>C++, Java, HTML &amp; CSS</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-slot" aria-hidden="true"></div>
+
+<!-- ================= 2. EDUCATION ================= -->
+<section id="education" class="sec">
+  <div class="blob ocean" style="width:280px;height:280px;top:0;right:-60px" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="eyebrow">Education</p>
+    <h2 class="sec-title">Educational background</h2>
+    <div class="tl" id="tl">
+      <div class="tl-line"></div>
+
+      <div class="tl-item"><span class="tl-dot"></span>
+        <div class="pane tl-card">
+          <div class="tl-top"><span class="chip">2026 to Present</span><span class="chip ghost">1st year</span></div>
+          <h3>Bachelor of Science in Computer Science</h3>
+          <p class="tl-school">College of Innovation and Integrated Technology</p>
+          <p>I'm beginning to develop a structured understanding of computer science, from programming fundamentals to the way software and web technologies fit together. Through coursework and regular practice, I'm learning C++, Java, HTML and CSS while improving how I break down problems, test ideas and explain my approach. My goal is to build strong fundamentals that I can rely on as I explore more advanced topics.</p>
+          <div class="tags"><span class="chip ghost">C++</span><span class="chip ghost">Java</span><span class="chip ghost">HTML</span><span class="chip ghost">CSS</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item"><span class="tl-dot"></span>
+        <div class="pane tl-card">
+          <div class="tl-top"><span class="chip">2026</span><span class="chip ghost">Graduated</span></div>
+          <h3>Senior High School</h3>
+          <p class="tl-school">Ste. Anne de Beaupre School</p>
+          <p>I completed Senior High School in 2026. This milestone marked the end of one stage of my formal education and the beginning of a more focused academic direction. It gave me a foundation to build on and encouraged me to continue exploring the subjects and skills that interest me, especially technology and computing.</p>
+        </div>
+      </div>
+
+      <div class="tl-item"><span class="tl-dot"></span>
+        <div class="pane tl-card">
+          <div class="tl-top"><span class="chip">Grades 7 to 12</span><span class="chip ghost">Junior &amp; Senior High School</span></div>
+          <h3>Learning about computers and coding independently</h3>
+          <p class="tl-school">Ste. Anne de Beaupre School</p>
+          <p>During my years at school, I became increasingly interested in how computers work and how people use them to create digital tools. I used online resources, tutorials and explanations to explore computer concepts and learn the basics of coding at my own pace. Following examples, experimenting with code and looking up answers when I got stuck helped me see that programming is a skill developed through curiosity, practice and persistence. That independent learning helped shape my decision to pursue Computer Science.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-slot" aria-hidden="true"></div>
+
+<!-- ================= 3. STRENGTHS & WEAKNESSES ================= -->
+<section id="strengths" class="sec">
+  <div class="blob gold" style="width:260px;height:260px;top:-40px;left:-80px" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="eyebrow">Self-assessment</p>
+    <h2 class="sec-title">Strengths &amp; weaknesses</h2>
+    <p class="sec-lead">Learning technology involves more than understanding syntax; it also means recognizing how I work, where I perform well and what needs more attention. My strengths help me approach unfamiliar challenges, while being honest about my weaknesses gives me a practical direction for improvement. I see both as skills in progress rather than fixed labels.</p>
+    <div class="sw">
+      <div class="pane">
+        <div class="sw-head"><h3>Strengths</h3></div>
+        <div class="sw-list">
+          <div class="skill"><h4>Curiosity <small>Eagerness to learn</small></h4>
+            <p>I enjoy asking questions, researching unfamiliar topics and finding out why a tool or concept works the way it does. This helps me stay engaged when learning new programming ideas and encourages me to look beyond simply memorizing an answer.</p>
+            <div class="meter" style="--v:.9"><i></i></div></div>
+          <div class="skill"><h4>Problem-solving <small>Logical thinking</small></h4>
+            <p>When something does not work as expected, I try to isolate the problem, review the steps I took and test possible explanations. Breaking a challenge into smaller pieces makes it easier to understand and gives me a clearer path toward a solution.</p>
+            <div class="meter" style="--v:.85"><i></i></div></div>
+          <div class="skill"><h4>Adaptability <small>Learning through practice</small></h4>
+            <p>I understand that tools, requirements and approaches can change. I try to stay open to unfamiliar concepts, learn from feedback and adjust my method when a different approach is more effective.</p>
+            <div class="meter" style="--v:.85"><i></i></div></div>
+        </div>
+      </div>
+      <div class="pane grow">
+        <div class="sw-head"><h3>Weaknesses</h3></div>
+        <div class="sw-list">
+          <div class="skill"><h4>Polishing too long <small>Progress</small></h4>
+            <p>I sometimes spend too much time refining small visual details even after the main layout is already clear and functional. I want to get better at recognizing when further polishing adds real value and when it is time to move forward.</p>
+            <p class="plan">Plan: set a time limit for each screen and test the version that is good enough.</p>
+            <div class="meter" style="--v:.58"><i></i></div></div>
+          <div class="skill"><h4>Asking for help late <small>Progress</small></h4>
+            <p>I can spend too long trying to solve a difficult problem independently before asking a question or seeking another perspective. Persistence is useful, but I also need to recognize when collaboration or a clear explanation would help me progress faster.</p>
+            <p class="plan">Plan: post the blocker after 30 minutes, not after three hours.</p>
+            <div class="meter" style="--v:.46"><i></i></div></div>
+          <div class="skill"><h4>Public speaking <small>Progress</small></h4>
+            <p>Explaining my ideas to a group can feel less comfortable than working through a technical problem on my own. I want to become more confident at describing my process, presenting results and answering questions clearly.</p>
+            <p class="plan">Plan: demo every class project aloud and join one club presentation per term.</p>
+            <div class="meter" style="--v:.5"><i></i></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-slot" aria-hidden="true"></div>
+
+<!-- ================= 4. VALUES / MISSION ================= -->
+<section id="values" class="sec">
+  <div class="blob ocean" style="width:300px;height:300px;bottom:10%;right:-90px" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="eyebrow">What guides the work</p>
+    <h2 class="sec-title">Values &amp; principles</h2>
+    <p class="sec-lead">The way I work matters just as much as the result. These values remind me to stay curious, communicate clearly and make steady progress. They are principles I want to apply whether I'm learning a new concept, working on a project or collaborating with other people.</p>
+    <div class="values">
+      <div class="pane value ruled">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="21" cy="21" r="11"/><path d="M29.5 29.5 41 41"/><path d="M21 15v6l4 3"/></svg>
+        <h3>Curiosity</h3><p>Looking beyond the first answer, asking thoughtful questions and exploring how things work. Curiosity helps me keep learning instead of treating what I already know as the limit of what I can do.</p>
+      </div>
+      <div class="pane value ruled">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 24c6-10 12-14 18-14s12 4 18 14c-6 10-12 14-18 14S12 34 6 24z"/><circle cx="24" cy="24" r="5"/></svg>
+        <h3>Clarity</h3><p>Organizing ideas and communicating them in a way that others can understand. In code and design, clarity makes work easier to maintain, explain and use.</p>
+      </div>
+      <div class="pane value ruled">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 30c5-8 9-8 14 0s9 8 14 0 8-6 12-2"/><path d="M4 18c5-8 9-8 14 0s9 8 14 0 8-6 12-2" opacity=".55"/></svg>
+        <h3>Consistency</h3><p>Making progress through regular effort rather than relying only on motivation. Small, repeated improvements help turn new knowledge into skills I can use with confidence.</p>
+      </div>
+    </div>
+
+    <div class="pane principles ruled">
+      <ul style="display:contents">
+        <li><b>1</b><span><strong>Prototype first, polish second.</strong> Build a simple version, test the idea and learn from what happens before investing too much time in details.</span></li>
+        <li><b>2</b><span><strong>Fix the root cause.</strong> Understand why something failed instead of only hiding the visible problem. A lasting solution begins with a clear diagnosis.</span></li>
+        <li><b>3</b><span><strong>Make the key action obvious.</strong> Good interfaces guide people naturally. Important actions and information should be easy to find and understand.</span></li>
+        <li><b>4</b><span><strong>Ship small, ship often.</strong> Work in manageable steps, review the result and use feedback to decide what to improve next.</span></li>
+      </ul>
+    </div>
+
+    <h2 class="sec-title sub">Mission &amp; vision</h2>
+    <div class="mv">
+      <div class="pane ruled">
+        <h3>Mission</h3>
+        <p class="big">To keep learning and apply my growing knowledge of programming and design to create clear, reliable and useful digital solutions. I want to approach each task thoughtfully, understand the problem before choosing an answer, and improve my work through testing and feedback.</p>
+        <div class="audience"><small>I build for</small><span class="chip">Software Teams</span><span class="chip">Tech Employers</span><span class="chip">Creative Studios</span></div>
+      </div>
+      <div class="pane ruled">
+        <h3>Vision</h3>
+        <p class="big">To become a capable and dependable developer who can take an idea from an early concept to a working result. I hope to keep strengthening my technical skills, collaborate effectively with others and contribute to technology that solves real problems and makes everyday tasks easier.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-slot" aria-hidden="true"></div>
+
+<!-- ================= 5. ACHIEVEMENTS ================= -->
+<section id="milestones" class="hs" aria-labelledby="ach-title">
+  <div class="blob gold" style="width:240px;height:240px;top:14%;left:-60px" aria-hidden="true"></div>
+  <div class="hs-top">
+    <div class="wrap head">
+      <h2 class="sec-title" id="ach-title" style="margin-bottom:.7rem">Achievements &amp; Milestones</h2>
+      <p class="eyebrow">Achievements</p>
+    </div>
+    <div class="wrap">
+      <div class="achv-row">
+        <article class="achv">
+          <div class="shot"><img src="images/comelec-ojt.png" alt="COMELEC On-The-Job Training photo" loading="lazy"></div>
+          <span class="chip">Achievement 1</span>
+          <h3>COMELEC On-The-Job Training</h3>
+          <p>Completed one month of On-The-Job Training at COMELEC during Senior High School, learning the systems in use and seeing real work experience and how a workplace operates.</p>
+        </article>
+        <article class="achv">
+          <div class="shot"><img src="images/shs-graduation-honors.png" alt="Senior High School graduation with honors photo" loading="lazy"></div>
+          <span class="chip">Achievement 2</span>
+          <h3>Graduated Senior High School with Honors</h3>
+          <p>Graduated from Senior High School with honors and awards, closing out my secondary education on a strong note.</p>
+        </article>
+        <article class="achv">
+          <div class="shot"><img src="images/first-cpp-calculator.png" alt="First C++ console calculator screenshot" loading="lazy"></div>
+          <span class="chip">Achievement 3</span>
+          <h3>First C++ Console Calculator</h3>
+          <p>Built my first calculator as a C++ console program, an early step in turning programming concepts into something that works.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="hs-run" id="run">
+   <div class="pin">
+    <div class="wrap">
+      <p class="eyebrow milestones-label">Milestones</p>
+    </div>
+    <div class="track" id="track">
+      <article class="ach">
+        <span class="yr">2022</span>
+        <h3>Early Learning</h3>
+        <p>This year marked the beginning of my academic journey. I started building the foundations of my education while gradually discovering my interests, recognizing my strengths, and exploring my creativity.</p>
+        <span class="chip">Building foundations</span>
+      </article>
+      <article class="ach">
+        <span class="yr">2023</span>
+        <h3>Personal Development</h3>
+        <p>I continued developing both academically and personally. Along the way, I worked on becoming more confident, disciplined, and adaptable. These qualities helped me approach new experiences and challenges with a more positive mindset.</p>
+        <span class="chip">Personal growth</span>
+      </article>
+      <article class="ach">
+        <span class="yr">2024</span>
+        <h3>Growth &amp; Exploration</h3>
+        <p>I became more open to exploring different interests and learning opportunities. This stage helped me strengthen important skills such as communication, teamwork, and problem-solving, while learning to approach situations from different perspectives.</p>
+        <span class="chip">Exploration</span>
+      </article>
+      <article class="ach">
+        <span class="yr">2025</span>
+        <h3>Senior High School</h3>
+        <p>As I continued my academic journey, I began preparing for the transition to college. I developed greater independence and responsibility, and started taking my first steps toward the field I wanted to pursue: Computer Science.</p>
+        <span class="chip">Preparing for college</span>
+      </article>
+      <article class="ach">
+        <span class="yr">2026</span>
+        <h3>Beginning My CS Journey</h3>
+        <p>I began college as a Computer Science student and started exploring programming and web development more intentionally. I also began building this digital portfolio as a place to present my progress, while continuing to develop my technical knowledge and creative skills.</p>
+        <span class="chip">Computer Science</span>
+      </article>
+    </div>
+    <div class="hs-dots" id="hsdots" aria-hidden="true"></div>
+   </div>
+  </div>
+</section>
+
+<div class="wave-slot" aria-hidden="true"></div>
+
+<!-- ================= 6. WORKS ================= -->
+<section id="works" class="sec">
+  <div class="wrap">
+    <p class="eyebrow">Selected projects</p>
+    <h2 class="sec-title">Best works &amp; creative outputs</h2>
+    <p class="sec-lead">This section is a collection of projects and creative work that show what I have been learning and making. Each entry can include a preview image, a short explanation of the goal, the tools or skills involved, and what I learned while creating it. I will add individual project details as I prepare each piece for display.</p>
+    <div class="works">
+      <article class="pane work">
+        <div class="shot"><img src="images/professional-interview-report.png" alt="professional interview reporting screenshot" loading="lazy"></div>
+        <div class="body"><span class="chip">Creative output 1</span><h3>Self-Development: Professional Interview &amp; Reflection</h3>
+          <p>Conducted a professional interview with someone working in a field connected to Computer Science, then completed a self-report analysis and group presentation. The activity helped me learn from a working professional's experiences and connect those insights to my own career preparation and development.</p></div>
+      </article>
+      <article class="pane work">
+        <div class="shot"><img src="images/cafe-restaurant-database.png" alt="Cafe and restaurant database SQL screenshot" loading="lazy"></div>
+        <div class="body"><span class="chip">Creative output 2</span><h3>Cafe/Restaurant Management Database</h3>
+          <p>Developed an SQL database script for an assigned Cafe/Restaurant Management System and created an ERD using Mermaid. The work involved planning the database structure and representing how its entities and relationships fit together.</p></div>
+      </article>
+    </div>
+    <div class="minor-works">
+      <article class="pane work work-small">
+        <div class="shot"><img src="images/cpp-programs.png" alt="C++ programs screenshot" loading="lazy"></div>
+        <div class="body"><span class="chip">Minor output 1</span><h3>Three Simple C++ Programs</h3>
+          <p>Created three beginner C++ programs: a grade pass-or-fail calculator, a basic menu with multiple choices, and a text character counter. These exercises helped me practice programming fundamentals and build simple interactive logic.</p></div>
+      </article>
+      <article class="pane work work-small">
+        <div class="shot"><img src="images/computing-web-case-study.png" alt="case study screenshot" loading="lazy"></div>
+        <div class="body"><span class="chip">Minor output 2</span><h3>Computing &amp; Web Design Case Studies</h3>
+          <p>Completed 10 case-study activities for Introduction to Computing and Web Design, applying concepts from the subjects to different scenarios and practicing how to analyze and respond to computing-related tasks.</p></div>
+      </article>
+      <article class="pane work work-small">
+        <div class="shot"><img src="images/ddl-dml-essentials.png" alt="DDL and DML screenshot" loading="lazy"></div>
+        <div class="body"><span class="chip">Minor output 3</span><h3>DDL &amp; DML Essentials</h3>
+          <p>Used an online MySQL compiler to work with tables, create two tables, and write 10 queries. This activity introduced practical database operations and the essentials of defining structures and manipulating data.</p></div>
+      </article>
+      <article class="pane work work-small">
+        <div class="shot"><img src="images/environmental-volunteerism-storyboard.png" alt="Environmental volunteerism six-panel storyboard" loading="lazy"></div>
+        <div class="body"><span class="chip">Minor output 4</span><h3>Environmental Volunteerism Storyboard</h3>
+          <p>Created a six-panel digital storyboard imagining a community environmental volunteerism effort. The panels featured a call to action, sorting and recycling, and a community park and neighborhood litter-cleanup drive.</p></div>
+      </article>
+      <article class="pane work work-small">
+        <div class="shot"><img src="images/career-goals-action-plan.png" alt="Career goals and action plan screenshot" loading="lazy"></div>
+        <div class="body"><span class="chip">Minor output 5</span><h3>Career Goals &amp; Action Plan</h3>
+          <p>Used my VIA strengths snapshot to identify two possible career paths and reflect on how each connects with my strengths, interests, values, personality traits, and experiences. Developed a SMART goal for each option, outlined three concrete action steps, and included a reflection.</p></div>
+      </article>
+      <article class="pane work work-small">
+        <div class="shot"><img src="images/julio-dev-brand-card.png" alt="Julio.Dev portfolio trading-card design" loading="lazy"></div>
+        <div class="body"><span class="chip">Minor output 6</span><h3>Portfolio Brand Launch: Julio.Dev</h3>
+          <p>Presented my personal brand launch in a creative trading-card format. I developed the brand name Julio.Dev, a slogan, and other brand elements to introduce my identity and direction as a Computer Science student.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="sec">
+  <div class="wrap">
+    <div class="pane contact ruled">
+      <p class="eyebrow">Contact</p>
+      <h2>Let's connect.</h2>
+      <p style="max-width:52ch">I'm open to connecting with fellow students, developers and people interested in technology. If you would like to discuss my learning journey, share feedback or get in touch about a project, you can reach me by email or find me on GitHub.</p>
+      <div class="mail"><code id="email">julio.ortega.ciit@gmail.com</code><button class="btn gold" id="copy" type="button">Copy email</button></div>
+      <p id="copied" aria-live="polite" style="min-height:1.4em;font-size:.9rem"></p>
+      <div class="socials"><a class="chip ghost" href="https://github.com/JulioOrtegaEdu" target="_blank" rel="noopener noreferrer">GitHub · @JulioOrtegaEdu</a><a class="chip ghost" href="mailto:julio.ortega.ciit@gmail.com">Email · julio.ortega.ciit@gmail.com</a></div>
+    </div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap">© 2026 Julio Ortega · Julio.Dev</div></footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var $=function(s,c){return (c||document).querySelector(s)};
+  var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+  var clamp=function(v,a,b){a=a==null?0:a;b=b==null?1:b;return Math.min(b,Math.max(a,v))};
+  var calm=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  /* ----- Theme (light by default, choice remembered) ----- */
+  var toggle=$('#theme');
+  function setTheme(t){
+    root.setAttribute('data-theme',t);
+    toggle.setAttribute('aria-checked',t==='dark'?'true':'false');
+    var m=$('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='dark'?'#061f3b':'#79cde5');
+  }
+  var saved=null; try{saved=localStorage.getItem('julio-theme')}catch(e){}
+  setTheme(saved==='dark'?'dark':'light');
+  toggle.addEventListener('click',function(){
+    var next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    setTheme(next); try{localStorage.setItem('julio-theme',next)}catch(e){}
+  });
+
+  /* ----- Copy email ----- */
+  var copyBtn=$('#copy'),emailEl=$('#email'),note=$('#copied'),noteTimer;
+  function say(t){note.textContent=t;clearTimeout(noteTimer);noteTimer=setTimeout(function(){note.textContent=''},4000)}
+  copyBtn.addEventListener('click',function(){
+    var txt=emailEl.textContent.trim();
+    var fallback=function(){
+      var r=document.createRange();r.selectNodeContents(emailEl);
+      var s=getSelection();s.removeAllRanges();s.addRange(r);
+      say('Email selected. Press Ctrl+C or ⌘C to copy.');
+    };
+    try{ navigator.clipboard.writeText(txt).then(function(){say('Email copied.')},fallback) }
+    catch(e){fallback()}
+  });
+
+  /* ----- Images that are not uploaded yet show a tidy placeholder ----- */
+  $$('.shot img').forEach(function(img){
+    var miss=function(){img.parentNode.classList.add('missing')};
+    if(img.complete&&img.naturalWidth===0&&img.getAttribute('src'))miss();
+    img.addEventListener('error',miss);
+  });
+
+  /* ----- Waves ----- */
+  var waveSvg='<svg class="wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">'
+   +'<g class="wv" data-sp=".35"><path d="M0 40C90 0 270 0 360 40S630 80 720 40S990 0 1080 40S1350 80 1440 40S1710 0 1800 40S2070 80 2160 40S2430 0 2520 40S2790 80 2880 40V80H0Z"/></g>'
+   +'<g class="wv" data-sp="-.2" opacity=".7"><path transform="translate(-300 8)" d="M0 40C90 0 270 0 360 40S630 80 720 40S990 0 1080 40S1350 80 1440 40S1710 0 1800 40S2070 80 2160 40S2430 0 2520 40S2790 80 2880 40V80H0Z"/></g></svg>';
+  $$('.wave-slot').forEach(function(s){s.innerHTML=waveSvg});
+  var waves=$$('.wv').map(function(g){return {g:g,sp:parseFloat(g.getAttribute('data-sp'))}});
+
+  /* ----- Bubbles (skipped when motion is reduced) ----- */
+  var bubWrap=$('#bubbles'),bubs=[];
+  if(!calm){
+    for(var i=0;i<14;i++){
+      var el=document.createElement('div');el.className='bubble';
+      var sz=14+Math.round(Math.random()*74);
+      el.style.width=el.style.height=sz+'px';
+      bubWrap.appendChild(el);
+      bubs.push({el:el,x:Math.random(),y0:Math.random(),sp:.12+Math.random()*.5,ph:Math.random()*6.28});
+    }
+  }
+
+  /* ----- Scroll-driven pieces ----- */
+  var grad=$('#grad'),sun=$('#sun'),caustic=$('#caustic');
+  var navWrap=$('.nav-wrap'),linksEl=$('#links');
+  var tlItems=$$('.tl-item'),meters=$$('.meter');
+  var hs=$('#milestones'),run=$('#run'),pin=$('.pin',hs),track=$('#track');
+  var achEls=$$('.ach',track);
+  var hsDots=$('#hsdots'),dotEls=achEls.map(function(){return hsDots.appendChild(document.createElement('i'))});
+  var secs=$$('main section[id]'),navLinks=$$('#links a');
+  var hsOn=false,pinTop=0,dist=0,centers=[],curSec='';
+
+  function measure(){
+    var navH=navWrap.offsetHeight;
+    root.style.setProperty('--navh',navH+'px');
+    var useStatic=calm;
+    if(!calm){
+      hs.classList.remove('static');
+      run.style.height='';
+      pinTop=parseFloat(getComputedStyle(pin).top)||0;
+      var ph=pin.offsetHeight;
+      if(ph>innerHeight-pinTop+1){useStatic=true}          /* would not fit: use the plain layout */
+      else{
+        dist=Math.max(0,track.scrollWidth-pin.clientWidth);
+        run.style.height=(dist+ph)+'px';
+        centers=achEls.map(function(a){return a.offsetLeft+a.offsetWidth/2});
+      }
+    }
+    hs.classList.toggle('static',useStatic);
+    hsOn=!useStatic;
+    if(!hsOn){
+      run.style.height='';track.style.transform='';
+      achEls.forEach(function(a){a.style.opacity=''});
+    }
+  }
+
+  function frame(){
+    var vh=innerHeight,vw=innerWidth,y=window.pageYOffset;
+    var max=Math.max(1,document.documentElement.scrollHeight-vh);
+    var p=clamp(y/max);
+
+    /* --- reads first, writes after: avoids layout thrashing --- */
+    var cur=secs[0].id;
+    secs.forEach(function(s){if(s.getBoundingClientRect().top<vh*.4)cur=s.id});
+    var tlTops=tlItems.map(function(it){return it.getBoundingClientRect().top});
+    var mTops=meters.map(function(m){return m.getBoundingClientRect().top});
+    var runTop=hsOn?run.getBoundingClientRect().top:0;
+
+    /* --- writes --- */
+    grad.style.backgroundPosition='50% '+(p*100)+'%';
+
+    var want=cur==='contact'?'works':cur;
+    if(want!==curSec){
+      curSec=want;
+      navLinks.forEach(function(a){
+        var on=a.getAttribute('href')==='#'+want;
+        a.classList.toggle('on',on);
+        if(on){a.setAttribute('aria-current','true');
+          var l=a.getBoundingClientRect().left-linksEl.getBoundingClientRect().left+linksEl.scrollLeft;
+          linksEl.scrollTo({left:l-(linksEl.clientWidth-a.offsetWidth)/2,behavior:calm?'auto':'smooth'});
+        }else a.removeAttribute('aria-current');
+      });
+    }
+
+    tlItems.forEach(function(it,i){it.classList.toggle('in',tlTops[i]<vh*.62)});
+    meters.forEach(function(m,i){
+      var k=calm?1:clamp((vh*.95-mTops[i])/(vh*.38));
+      m.style.setProperty('--k',(1-Math.pow(1-k,3)).toFixed(3));
+    });
+
+    if(hsOn){
+      var range=run.offsetHeight-pin.offsetHeight;
+      var hp=range>0?clamp((pinTop-runTop)/range):0;
+      var tx=hp*dist;
+      track.style.transform='translate3d('+(-tx)+'px,0,0)';
+      var cx=vw/2,nearest=0,nd=Infinity;
+      centers.forEach(function(c,idx){
+        var d=Math.abs(c-tx-cx);
+        achEls[idx].style.opacity=(0.6+0.4*(1-clamp(d/(vw*.6)))).toFixed(2);
+        if(d<nd){nd=d;nearest=idx}
+      });
+      dotEls.forEach(function(d,idx){d.classList.toggle('on',idx===nearest)});
+    }
+
+    if(calm)return;
+
+    sun.style.transform='translate3d('+(p*70)+'vw,'+(p*45)+'vh,0)';
+    caustic.style.transform='translate3d(0,'+(-y*.1)+'px,0)';
+    var H=vh+200;
+    bubs.forEach(function(b){
+      var yy=(((b.y0*H-y*b.sp)%H)+H)%H-100;
+      var xx=b.x*vw+Math.sin(y*.004+b.ph)*16;
+      b.el.style.transform='translate3d('+xx+'px,'+yy+'px,0)';
+    });
+    waves.forEach(function(w){
+      w.g.setAttribute('transform','translate('+(-(((y*w.sp)%720)+720)%720)+' 0)');
+    });
+  }
+
+  var ticking=false,resizing=false;
+  function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(function(){ticking=false;frame()})}}
+  function onResize(){if(!resizing){resizing=true;requestAnimationFrame(function(){resizing=false;measure();frame()})}}
+  addEventListener('scroll',onScroll,{passive:true});
+  addEventListener('resize',onResize);
+  addEventListener('load',onResize);
+  measure();frame();
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(onResize)}
+})();
+</script>
+
+</body></html>
